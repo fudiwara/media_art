@@ -27,7 +27,7 @@ while True:
     for n in range(len(posName)): # 上記で設定したパーツ分ループする
         x = int(pl.landmark[posName[n]].x * cam_width)
         y = int(pl.landmark[posName[n]].y * cam_height)
-        cv2.circle(frame, (x, y), 15, (0, 255, 0), thickness = 2)
+        cv2.circle(frame, (x, y), 15, (0, 255, 0), thickness = 5)
         # print(x, y) # デバッグ用
 
     cv2.imshow("Frame pose", frame) # 円描画した結果の表示

@@ -35,7 +35,7 @@ while True:
             # for n in range(21): # 上記で設定したパーツ分ループする
             #     x = int(hand_landmarks.landmark[n].x * cam_width)
             #     y = int(hand_landmarks.landmark[n].y * cam_height)
-                cv2.circle(frame, (x, y), 15, handsCol[h_id], thickness = 2)
+                cv2.circle(frame, (x, y), 15, handsCol[h_id], thickness = 5)
                 # print(x, y) # デバッグ用
 
     cv2.imshow("Frame pose", frame) # 円描画した結果の表示

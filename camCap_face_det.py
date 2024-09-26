@@ -34,14 +34,14 @@ while True:
             y0 = int(b.ymin * cam_height)
             x1 = int((b.xmin + b.width) * cam_width)
             y1 = int((b.ymin + b.height) * cam_height)
-            cv2.rectangle(frame, (x0, y0), (x1, y1), (0, 255, 0), 2)
+            cv2.rectangle(frame, (x0, y0), (x1, y1), (0, 255, 0), 3)
 
             # 顔特徴点の検出結果描画
             k = results.detections[i].location_data.relative_keypoints
             for j in range(len(k)):
                 kx = int(k[j].x * cam_width)
                 ky = int(k[j].y * cam_height)
-                cv2.circle(frame, (kx, ky), 2, (0, 255, 0))
+                cv2.circle(frame, (kx, ky), 1, (0, 255, 0))
             # print(len(k))
 
     tm.stop()
