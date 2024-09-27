@@ -84,5 +84,5 @@ while True:
     # キー入力を1ms待って、kキーの場合(27 / ESC)だったらBreakする
     key = cv2.waitKey(1)
     if key == 27: break
-    if key == ord('s'): cv2.imwrite("output.png", frame)
+    if key == ord("s"): cv2.imwrite("output.png", frame)
 
