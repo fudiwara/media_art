@@ -58,7 +58,7 @@ while True:
             b = bboxs[i]
             prd_val = scores[i]
             if prd_val < thDetection: continue # 閾値以下が出現した段階で終了
-            prd_cls = labels[i]
+            prd_cls = labels[i] - 1 # COCOは1プラスされて検出IDが出てくる
 
             x0, y0 = int(b[0]), int(b[1])
             p0, p1 = (x0, y0), (int(b[2]), int(b[3]))
@@ -67,7 +67,7 @@ while True:
             box_col = colors[prd_cls % clr_num]
 
             # text = f" {prd_cls}  {prd_val:.3f} " # クラスIDと確率を表示させる場合
-            text = f" {class_names[prd_cls - 1]} " # クラス名のみを表示させる場合
+            text = f" {class_names[prd_cls]} " # クラス名のみを表示させる場合
             (t_w, t_h), baseline = cv2.getTextSize(text, cv2.FONT_HERSHEY_DUPLEX, font_scale, 1) # テキスト部の矩形サイズ取得
             cv2.rectangle(frame, p0, p1, box_col, thickness = 2) # 検出領域の矩形
             cv2.rectangle(frame, (x0, y0 - t_h), (x0 + t_w, y0), box_col, thickness = -1) # テキストの背景の矩形
