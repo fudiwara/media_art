@@ -1,5 +1,6 @@
 # mediapipe旧IFのface_detectionお試しプログラム
 # 顔の矩形と特徴点の座標を表示
+# model_selectionの指定で小さい顔も検出できるようになる
 
 import sys
 sys.dont_write_bytecode = True
@@ -13,9 +14,9 @@ cw, ch = 640, 480
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, cw)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, ch)
 
-mp_face_detection = mp.solutions.face_detection # model_selectionは定義できないもよう
-# face_detection = mp_face_detection.FaceDetection(model_selection = 1, min_detection_confidence = 0.5)
-face_detection = mp_face_detection.FaceDetection(min_detection_confidence = 0.5)
+mp_face_detection = mp.solutions.face_detection
+face_detection = mp_face_detection.FaceDetection(model_selection = 1, min_detection_confidence = 0.5) # 小さい顔も検出
+# face_detection = mp_face_detection.FaceDetection(min_detection_confidence = 0.5)
 
 ret, frame = cap.read()
 i_h, i_w, _ = frame.shape
