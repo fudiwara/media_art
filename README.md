@@ -1,5 +1,5 @@
 メディアアート制作プロジェクト用参考プログラム
 ---
-GoogleのMediaPipe(https://ai.google.dev/edge/mediapipe/)の参考プログラムです。
+Googleの[MediaPipe](https://ai.google.dev/edge/mediapipe/)の参考プログラムです。
 MediaPipeは初期バージョンが2019年6月にリリースされており、2023年4月にリリースされたバージョン0.10.0から新しいインターフェイスに変わっています。
 Web上では初期インターフェイスの紹介をしている記事が多くありますので実装したいことに応じて目的の情報かどうかを見定めましょう。
