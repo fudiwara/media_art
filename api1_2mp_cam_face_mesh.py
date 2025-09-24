@@ -1,5 +1,5 @@
 # mediapipe旧IFのfaceお試しプログラム
-# 顔メッシュの特徴点の座標に○を表示します
+# 顔メッシュの特徴点の座標に○を表示
 
 import sys
 sys.dont_write_bytecode = True

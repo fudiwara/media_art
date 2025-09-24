@@ -1,5 +1,5 @@
 # mediapipe旧IFのface_detectionお試しプログラム
-# 顔の矩形と特徴点の座標を表示します
+# 顔の矩形と特徴点の座標を表示
 
 import sys
 sys.dont_write_bytecode = True
