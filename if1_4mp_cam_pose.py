@@ -1,6 +1,7 @@
-# mediapipeのposeお試しプログラム
+# mediapipe旧IFのposeお試しプログラム
 # 鼻、左手、右手、左足、右足の場所に○を表示します
 # 例外処理をしていないので体全体が全て写っているという前提で安定動作する感じです(入っていないパーツは荒ぶるカモ)
+# 旧IFの場合は検出可能人数は一人です
 
 import sys
 sys.dont_write_bytecode = True
@@ -17,7 +18,8 @@ posName = [0, 19, 20, 31, 32] # 鼻、左手、右手、左足、右足
 
 while True:
     ret, frame = cap.read() # キャプチャ
-    if not ret: continue # キャプチャできていなければ再ループ
+    if not ret: # フレームの読み込みに失敗したらループ終了
+        break
     cam_height, cam_width, _ = frame.shape # フレームサイズ取得(一回やればほんとうはいいのだけど)
 
     results = pose.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) # mediapipeに処理を渡す
@@ -30,10 +32,8 @@ while True:
         cv2.circle(frame, (x, y), 15, (0, 255, 0), thickness = 5)
         # print(x, y) # デバッグ用
 
-    cv2.imshow("Frame pose", frame) # 円描画した結果の表示
+    cv2.imshow("Frame pose", frame) # 人検出結果の各関節へ円描画
 
     k = cv2.waitKey(1)
-    if k == 27: break # escキーでプログラム終了
-
-cap.release() # 後処理
-cv2.destroyAllWindows()
+    if k == 27:
+        break # escキーでプログラム終了

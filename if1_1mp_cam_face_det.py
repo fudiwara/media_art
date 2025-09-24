@@ -1,4 +1,4 @@
-# mediapipeのface_detectionお試しプログラム
+# mediapipe旧IFのface_detectionお試しプログラム
 # 顔の矩形と特徴点の座標を表示します
 
 import sys
@@ -22,7 +22,8 @@ tm.start()
 
 while True:
     ret, frame = cap.read() # キャプチャ
-    if not ret: continue # キャプチャできていなければ再ループ
+    if not ret: # フレームの読み込みに失敗したらループ終了
+        break
     cam_height, cam_width, _ = frame.shape # フレームサイズ取得(一回やればほんとうはいいのだけど)
 
     results = face_detection.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) # mediapipeに処理を渡す
@@ -50,7 +51,8 @@ while True:
     tm.start()
     cv2.putText(frame, disp_fps, (10, 50), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 1, cv2.LINE_AA)
 
-    cv2.imshow("Frame pose", frame) # 円描画した結果の表示
+    cv2.imshow("Frame pose", frame) # 顔検出した結果の表示
 
     k = cv2.waitKey(1)
-    if k == 27: break # escキーでプログラム終了
+    if k == 27:
+        break # escキーでプログラム終了
