@@ -2,6 +2,8 @@
 # Macの場合はOS側のジェスチャー認識をオフしてから使った方がよい
 # 予め以下のURLから特徴点ファイルをダウンロードしておく必要がある
 # https://ai.google.dev/edge/mediapipe/solutions/vision/gesture_recognizer
+# ジェスチャーというよりハンドサインぽい感じ
+# 1: グー、2: パー、3: 上指さし、4: だめね、5: いいね、6: チョキ、7: ILoveYouサイン
 
 import sys
 sys.dont_write_bytecode = True
@@ -10,6 +12,11 @@ import cv2
 import mediapipe as mp
 
 cap = cv2.VideoCapture(int(sys.argv[1])) # キャプチャ開始(複数カメラはIDを追加)
+
+cw, ch = 640, 480
+# cw, ch = 1280, 720
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, cw)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, ch)
 
 options = mp.tasks.vision.GestureRecognizerOptions( # 検出器のオプション
     base_options = mp.tasks.BaseOptions(model_asset_path = "gesture_recognizer.task"), # 手ジェスチャー用モデル
@@ -20,15 +27,14 @@ ret, frame = cap.read()
 i_h, i_w, _ = frame.shape
 
 tick_meter = cv2.TickMeter()
+tick_meter.start() # 計測開始
 
 save_count = 0 # 画像保存時のカウンタ
 while True:
-    ret, frame = cap.read()
-
+    ret, frame = cap.read() # キャプチャ
     if not ret: # フレームの読み込みに失敗したらループ終了
         break
     
-    tick_meter.start() # 計測開始
     img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # MediaPipe用にRGBに
     mp_image = mp.Image(image_format = mp.ImageFormat.SRGB, data = img_rgb) # MediaPipeのImageオブジェクトへ
 
@@ -49,9 +55,9 @@ while True:
                     cv2.putText(frame, hand_gesture, (x, y + 80), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 255), 2)
 
     tick_meter.stop() # 計測終了
-    fps = tick_meter.getFPS() # FPSの計算
-    cv2.putText(frame, f"{fps:.1f}", (5, 32), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+    cv2.putText(frame, f"{tick_meter.getFPS():.1f}", (5, 32), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
     tick_meter.reset() # 次フレーム用に時計をリセット
+    tick_meter.start() # 計測開始
 
     cv2.imshow("image", frame) # 結果の表示
 

@@ -12,6 +12,11 @@ import mediapipe as mp
 
 cap = cv2.VideoCapture(int(sys.argv[1])) # キャプチャ開始(複数カメラはIDを追加)
 
+cw, ch = 640, 480
+# cw, ch = 1280, 720
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, cw)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, ch)
+
 options = mp.tasks.vision.ImageSegmenterOptions( # セグメンテーションのオプション
     base_options = mp.tasks.BaseOptions(model_asset_path = "selfie_multiclass_256x256.tflite"), # 人用
     output_category_mask = True)
@@ -21,14 +26,13 @@ ret, frame = cap.read()
 i_h, i_w, _ = frame.shape
 
 tick_meter = cv2.TickMeter()
+tick_meter.start() # 計測開始
 
 while True:
-    ret, frame = cap.read()
-
+    ret, frame = cap.read() # キャプチャ
     if not ret: # フレームの読み込みに失敗したらループ終了
         break
     
-    tick_meter.start() # 計測開始
     img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # MediaPipe用にRGBに
     mp_image = mp.Image(image_format = mp.ImageFormat.SRGB, data = img_rgb) # MediaPipeのImageオブジェクトへ
 
@@ -47,9 +51,9 @@ while True:
     img_disp = cv2.addWeighted(frame, 1, mask_color, 0.2, 0) # カラー付けしたマスクと入力フレームを合成
     
     tick_meter.stop() # 計測終了
-    fps = tick_meter.getFPS() # FPSの計算
-    cv2.putText(frame, f"{fps:.1f}", (5, 32), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+    cv2.putText(frame, f"{tick_meter.getFPS():.1f}", (5, 32), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
     tick_meter.reset() # 次フレーム用に時計をリセット
+    tick_meter.start() # 計測開始
 
     cv2.imshow("input frame", frame) # 入力フレーム
     cv2.imshow("segmented mask", img_mask) # 特定のマスクの表示
