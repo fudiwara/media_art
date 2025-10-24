@@ -29,7 +29,6 @@ i_h, i_w, _ = frame.shape
 tick_meter = cv2.TickMeter()
 tick_meter.start() # 計測開始
 
-save_count = 0 # 画像保存時のカウンタ
 while True:
     ret, frame = cap.read() # キャプチャ
     if not ret: # フレームの読み込みに失敗したらループ終了
