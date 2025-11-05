@@ -18,33 +18,33 @@ MediaPipeはカメラからの映像や画像データを入力として複雑�
 注意点として**MediaPipeの顔検出の画角に対する顔のサイズがスマホのセルフィーを意識している**ことを理解している必要があります。旧APIでは小さめに表示された顔に対しても検出できるモデルが用意されていましたが、新APIでは大きく表示された顔を検出できるモデルしか現時点では公開されていません(小さく表示された顔向けのモデルは準備中とのことですが公開を期待しない方がいいのかってくらいずっともう準備中です)。
 
 #### 顔の特徴点検出
-##### [api1_2mp_cam_face_mesh.py (旧)]
-##### [api2_2mp_cam_face_mesh.py]
+##### [api1_2mp_cam_face_mesh.py (旧)](api1_2mp_cam_face_mesh.py)
+##### [api2_2mp_cam_face_mesh.py](api2_2mp_cam_face_mesh.py)
 これも内容的な違いはないですが、モデルを変更した場合は新APIを使います。
 
 #### 手・指検出
-##### [api1_3mp_cam_hand.py (旧)]
-##### [api2_4mp_cam_hand.py]
-##### [api2_5mp_cam_hand_fingertip.py]
+##### [api1_3mp_cam_hand.py (旧)](api1_3mp_cam_hand.py)
+##### [api2_4mp_cam_hand.py](api2_4mp_cam_hand.py)
+##### [api2_5mp_cam_hand_fingertip.py](api2_5mp_cam_hand_fingertip.py)
 これも内容的な違いはないですが、旧APIでは映像のミラーリングの対応のしかたが異なるため手の左右について表示結果が逆になります。
 
 #### 手のジェスチャー
-##### [api2_6mp_cam_hand_gesture.py]
+##### [api2_6mp_cam_hand_gesture.py](api2_6mp_cam_hand_gesture.py)
 ジェスチャー以外の実装できる内容は手の検出に近いです。7種のハンドサインを識別できます。グー、チョキ、パーも含まれているのでじゃんけんもいけます。
 
 #### セマンティックセグメンテーション
-##### [api1_4mp_cam_segmentation.py (旧)]
-##### [api2_7mp_cam_segmentation.py]
-##### [api2_8mp_cam_segmentation_anyParts.py]
+##### [api1_4mp_cam_segmentation.py (旧)](api1_4mp_cam_segmentation.py)
+##### [api2_7mp_cam_segmentation.py](api2_7mp_cam_segmentation.py)
+##### [api2_8mp_cam_segmentation_anyParts.py](api2_8mp_cam_segmentation_anyParts.py)
 新APIで追加された機能が多いです。旧APIでは、人物-背景 および 髪-それ以外 という2種のモデルが用意されていましたが、新APIでは一つのモデルで、髪、顔、肌(顔以外の)、服、アクセサリと5種の領域に分割することができます。
 
 #### ポーズ検出
-##### [api1_5mp_cam_pose.py (旧)]
-##### [api2_9mp_cam_pose.py]
+##### [api1_5mp_cam_pose.py (旧)](api1_5mp_cam_pose.py)
+##### [api2_9mp_cam_pose.py](api2_9mp_cam_pose.py)
 検出できるポーズの内容に変更はないですが、旧APIでは検出対象が一人のみでした。
 
 #### 一般物体検出
-##### [api2_3mp_cam_det_obj.py]
+##### [api2_3mp_cam_det_obj.py](api2_3mp_cam_det_obj.py)
 MS COCOデータセットで学習した80種のオブジェクトの検出をすることができます。ですが、そこまで万能な性能ではありませんので利用時にはある程度の工夫が必要になります。
 
 #### 描画系をpygameで実装したプログラム
