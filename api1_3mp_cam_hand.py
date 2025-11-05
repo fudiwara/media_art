@@ -19,7 +19,7 @@ mp_hands = mp.solutions.hands # handsの初期化
 hands = mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7, min_tracking_confidence=0.7)
 
 posHandsIds = [4, 8, 12, 16, 20] # 各指の先端
-# https://google.github.io/mediapipe/solutions/hands
+# https://chuoling.github.io/mediapipe/solutions/hands.html
 
 ret, frame = cap.read()
 i_h, i_w, _ = frame.shape
