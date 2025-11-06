@@ -47,14 +47,14 @@ while running: # メインループ
 
     flag_l, flag_r = False, False # 左右でそれぞれグーになっているか
     num_victory = 0 # グーの数を数える変数
-    if hand_landmarker_result:
+    if hand_landmarker_result: # 手検出されてたら各処理をする
         for i, hand in enumerate(hand_landmarker_result.hand_landmarks): # 各手に対するループ
             x = int(0.5 * (hand[0].x + hand[9].x) * WIDTH)
             y = int(0.5 * (hand[0].y + hand[9].y) * HEIGHT)
 
             hand_side = hand_landmarker_result.handedness[i][0].category_name
             hand_gesture = hand_landmarker_result.gestures[i][0].category_name
-            if hand_side == "Right":
+            if hand_side == "Right": # 左右属性に応じた処理
                 if hand_gesture == "Closed_Fist":
                     flag_l = True # flipしているので逆で
                     pos_l = (x, y)
@@ -69,29 +69,30 @@ while running: # メインループ
             else:
                 color = (0, 0, 0)
             
-    if drawing_l:
-        if not flag_l:
-            drawing_l = False
-        else:
+    if drawing_l: # お絵かき中で
+        if flag_l: # グーなら線を描き続けて
             pygame.draw.line(drawing_canvas, (0, 255, 0), pos_l, last_pos_l, 9)
-            last_pos_l = pos_l
-    else:
-        if flag_l:
-            drawing_l = True
-            last_pos_l = pos_l
-
-    if drawing_r:
-        if not flag_r:
-            drawing_r = False
+            last_pos_l = pos_l # 今の座標を次のフレームに
         else:
+            drawing_l = False # グーじゃなくなったらお絵かき中フラグを解除
+    else:
+        if flag_l: # お絵かき中じゃない時に、グーになったら
+            drawing_l = True # お絵かき中フラグを付けて
+            last_pos_l = pos_l # 今の座標を次のフレームに
+
+    # 後は右手で同じ
+    if drawing_r:
+        if flag_r:
             pygame.draw.line(drawing_canvas, (255, 0, 0), pos_r, last_pos_r, 9)
             last_pos_r = pos_r
+        else:
+            drawing_r = False
     else:
         if flag_r:
             drawing_r = True
             last_pos_r = pos_r
     
-    if num_victory == 2:
+    if num_victory == 2: # グーを数える変数が2の時に
         drawing_canvas.fill((255, 255, 255, 0)) # 両手がチョキになったら履歴を消す
 
     screen.blit(drawing_canvas, (0, 0)) # カメラ映像の上に描画履歴を重ねて表示

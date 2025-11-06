@@ -37,18 +37,18 @@ while running: # メインループ
     img_disp = pygame.transform.scale(img_pg, (WIDTH, HEIGHT)) # 表示用にサイズ調整
     screen.blit(img_disp, (0, 0)) # 背景としてキャプチャ結果を描画
 
-    img_qvga = cv.resize(img_rgb, None, fx=0.5, fy=0.5) # 処理高速化のために1/4サイズにする
+    img_qvga = cv.resize(img_rgb, None, fx = 0.5, fy = 0.5) # 処理高速化のために1/4サイズにする
     img_mp = mp.Image(image_format = mp.ImageFormat.SRGB, data = img_qvga) # MediaPipe用に変換
     pose_landmarker_result = landmarker.detect(img_mp) # poseランドマーク検出
 
     flag_body_location = False # ボディがとある場所にいるかどうかというフラグ
-    if pose_landmarker_result:
+    if pose_landmarker_result: # 人が検出されていたら各処理をする
         for i, pose in enumerate(pose_landmarker_result.pose_landmarks): # 各人に対するループ
-            x_center = int(0.5 * (pose[23].x + pose[24].x) * WIDTH)
-            if X_LEFT < x_center < X_RIGHT:
-                flag_body_location = True
+            x_center = int(0.5 * (pose[23].x + pose[24].x) * WIDTH) # ボディの横位置を求める
+            if X_LEFT < x_center < X_RIGHT: # 予め用意した範囲にいれば
+                flag_body_location = True # フラグを真にする
     
-    if flag_body_location:
+    if flag_body_location: # ボディのフラグが真なら (このif文の場所にも注意！)
         pygame.draw.circle(screen, (255, 0, 0), (75, 75), 70, 5) # いるよ！を示す円の描画
 
     pygame.display.flip() # 画面の更新

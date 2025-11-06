@@ -36,11 +36,11 @@ while running: # メインループ
     img_disp = pygame.transform.scale(img_pg, (WIDTH, HEIGHT)) # 表示用にサイズ調整
     screen.blit(img_disp, (0, 0)) # 背景としてキャプチャ結果を描画
 
-    img_qvga = cv.resize(img_rgb, None, fx=0.5, fy=0.5) # 処理高速化のために1/4サイズにする
+    img_qvga = cv.resize(img_rgb, None, fx = 0.5, fy = 0.5) # 処理高速化のために1/4サイズにする
     img_mp = mp.Image(image_format = mp.ImageFormat.SRGB, data = img_qvga) # MediaPipe用に変換
     pose_landmarker_result = landmarker.detect(img_mp) # poseランドマーク検出
 
-    if pose_landmarker_result:
+    if pose_landmarker_result: # 人が検出されていたら各処理をする
         for i, pose in enumerate(pose_landmarker_result.pose_landmarks): # 各人に対するループ
 
             for connection in body_line: # 節のリストに対するループ
@@ -49,7 +49,7 @@ while running: # メインループ
                 y1 = int(pose[start_idx].y * HEIGHT)
                 x2 = int(pose[end_idx].x * WIDTH) # 端点2の座標
                 y2 = int(pose[end_idx].y * HEIGHT)
-                pygame.draw.line(screen, (0, 0, 255), (x1, y1), (x2, y2), 3)
+                pygame.draw.line(screen, (0, 0, 255), (x1, y1), (x2, y2), 3) # 端点1-2で線描画
             
             for p in pose: # 関節の各点に対するループ
                 x = int(p.x * WIDTH)

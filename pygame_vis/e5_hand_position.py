@@ -41,10 +41,10 @@ while running: # メインループ
     img_mp = mp.Image(image_format = mp.ImageFormat.SRGB, data = img_qvga) # MediaPipe用に変換
     hand_landmarker_result = hand_detection.recognize(img_mp) # 手の検出
 
-    if hand_landmarker_result:
+    if hand_landmarker_result: # 手検出されてたら各処理をする
         for i, hand in enumerate(hand_landmarker_result.hand_landmarks): # 各手に対するループ
             hand_side = hand_landmarker_result.handedness[i][0].category_name
-            if hand_side == "Right":
+            if hand_side == "Right": # 左右属性に応じた処理
                 color = (0, 255, 0)
                 hand_text = "Left" # flipしているので逆で
             elif hand_side == "Left":
@@ -53,6 +53,7 @@ while running: # メインループ
             else:
                 color = (0, 0, 0)
 
+            # 各手の代表となる座標を得る
             x = int(0.5 * (hand[0].x + hand[9].x) * WIDTH)
             y = int(0.5 * (hand[0].y + hand[9].y) * HEIGHT)
             pygame.draw.circle(screen, color, (x, y), 11, 3) # 円の描画
